@@ -1,0 +1,57 @@
+\section{Introduction and Rationale}
+\label{sec:intro}
+
+In the preceding chapters, we surveyed the theoretical foundations of Natural Language Processing (NLP) and Large Language Models (LLMs), as well as the current state of the art in both open-source and proprietary solutions. This chapter delves into the specific methodology and implementation details behind the system developed for this thesis. The primary objective is to illustrate how our chosen model, a quantized variant of LLaMA 3.1 8B Instruct, can be integrated into an end-to-end application that combines prompt engineering, retrieval-augmented generation (RAG), and agent-like behavior to support natural, context-rich conversations.
+
+Throughout this chapter, we will offer an in-depth discussion of the key design decisions, starting with the motivation for selecting LLaMA 3.1 8B Instruct and the trade-offs that guided the quantization strategy. We then describe the system’s internal architecture, explaining how domain knowledge is incorporated through RAG, and how prompt engineering techniques shape the model’s responses. Finally, we outline how agent-like capabilities are implemented to enable the system to handle tools, APIs, or additional computational steps in a flexible and modular fashion.
+
+\section{Choice of Model and Quantization Strategy}
+\label{sec:model-quant}
+
+The decision to adopt LLaMA 3.1 8B Instruct was influenced by its demonstrated balance between performance and computational efficiency. Compared to more parameter-heavy models, an 8-billion-parameter variant can be hosted on mid-range GPUs or multi-core CPUs with augmented RAM, reducing the hardware barrier to experimentation. At the same time, its instruct tuning aligns well with applications that require a more guided conversational style. 
+
+Given that hardware resources can be a significant bottleneck for many academic or small-scale industrial projects, the system was further optimized through an 8-bit quantization approach. Prior research has shown that quantizing floating-point parameters to lower-precision formats, such as INT8, preserves much of the model’s performance while substantially reducing the memory footprint \cite{dettmers2022int8}. We also took advantage of GPU kernels specialized for INT8 operations, thereby accelerating both matrix multiplications and attention calculations. This quantized configuration proved especially beneficial for interactive applications where inference speed and responsiveness are critical. The resulting model size was manageable on a single high-end GPU, and it allowed the system to run without resorting to complex multi-GPU parallelization or out-of-core inference strategies.
+
+\section{System Architecture and Data Flow}
+\label{sec:system-architecture}
+
+The architecture was designed to accommodate three principal components: the LLM core, an external knowledge retrieval mechanism, and an agent-like controller. These elements work together to create a dynamic conversational environment.
+
+At the core is the quantized LLaMA 3.1 8B Instruct model, which processes user queries and generates text-based responses. Because LLMs are prone to generating hallucinations \cite{ji2023surveyhallucination}, especially when reasoning about topics beyond their training distribution, the system integrates a retrieval-augmented generation (RAG) pipeline. Whenever the conversation’s context suggests that external knowledge is required, the system invokes a retrieval module that queries a domain-specific corpus or a general-purpose knowledge base. Relevant documents are then added to the model’s context window, improving factuality by grounding the conversation in actual data.
+
+On top of these foundational pieces, an agent-like controller orchestrates the flow of requests and responses. This controller maintains a stateful representation of the conversation, tracking topics, user preferences, and completed tasks. When certain triggers arise, such as user requests to perform calculations, query APIs, or summarize a lengthy text, the controller delegates the relevant task to auxiliary tools. Results from these tools are subsequently fed back into the LLM context, enabling a more interactive and flexible dialogue experience.
+
+\section{Prompt Engineering and Instruction Templates}
+\label{sec:prompt-engineering}
+
+Despite the significant scaling and sophistication of modern LLMs, the manner in which prompts are crafted can profoundly affect the output’s quality. In this implementation, prompts are divided into a system directive and a user query. The system directive establishes a global context, detailing how the model should respond, what style or register to use, and any constraints on tone or formality. By framing the conversation in this way, we obtain more reliable adherence to guidelines and reduce the likelihood of undesirable outputs. 
+
+Additionally, a set of instruction templates was prepared to handle specialized tasks, such as summarization, question-answering, or code generation. These templates feature instructions that clarify the expected output format, highlight the importance of factual accuracy, or set the desired level of detail. They are appended to the main prompt whenever a particular functionality is requested. Such targeted prompt engineering limits the ambiguity that can cause large models to generate excessively verbose or tangential responses.
+
+\section{Retrieval-Augmented Generation Workflow}
+\label{sec:rag-workflow}
+
+The retrieval-augmented generation (RAG) mechanism is a central pillar of this system’s approach to addressing knowledge-intensive tasks. Rather than relying solely on the model’s parameters for domain-specific information, the RAG workflow begins by identifying keywords or key phrases in the user’s query. A vector-based similarity search engine then locates relevant documents within a specialized repository. The system parses these retrieved documents, selecting the most pertinent sections based on factors such as semantic overlap and recency. 
+
+These selected sections are incorporated into the LLM’s contextual prompt, effectively grounding the model’s reasoning in verifiable source material. As a result, the final answer is more likely to reference the actual facts contained in the database, mitigating the risk of hallucinations or outdated information. This architecture also provides a modular mechanism to update the system’s knowledge base without retraining or fine-tuning the LLM. Whenever new data becomes available, it can be indexed and immediately utilized by the retrieval engine, ensuring that the system’s knowledge remains current.
+
+\section{Agent-Like Orchestration and Tool Usage}
+\label{sec:agent-framework}
+
+A distinguishing feature of this system is its agent-like behavior, designed to address tasks that extend beyond straightforward question-answering or text generation. The orchestrating controller monitors the conversation for “actionable” triggers, which might include commands to perform mathematical computations, calls to external APIs, or requests to translate or summarize text from external sources. Once such a trigger is detected, the controller routes the request to a corresponding tool or module, asynchronously processes the result, and reintegrates the outcome into the conversation flow.
+
+For instance, if a user asks for currency conversion rates, the controller can query a financial API, gather the data, and then present the summarized findings to the LLaMA model. By weaving these externally sourced results back into the conversation context, the user experiences a smooth interaction where the LLM acts as a central mediator. This design also provides a layer of explainability: the system can specify which actions it took and why, allowing developers or power users to trace errors to either the external tool or the model’s interpretation.
+
+\section{Implementation Details and Environment}
+\label{sec:implementation}
+
+Implementation was carried out primarily in Python, leveraging libraries such as \texttt{PyTorch} for model inference, \texttt{FAISS} or \texttt{Milvus} for vector-based retrieval, and auxiliary frameworks for building conversational AI pipelines. The quantized version of LLaMA 3.1 8B Instruct was integrated through specialized GPU kernels capable of handling INT8 operations \cite{dettmers2022int8}, ensuring efficient matrix multiplications and multi-head attention. In development environments equipped with limited GPU memory, gradient checkpointing and partial model offloading were employed to prevent out-of-memory errors.
+
+The retrieval database comprised either a domain-specific corpus or a broader text collection, depending on the use case. For demonstration purposes, a curated set of documents was indexed, covering general knowledge topics and domain-specific references. The agent-like controller was implemented as a modular Python class, encapsulating the logic for detecting triggers, invoking tools, and reinserting results into the conversation. This flexible architecture facilitated iterative improvements and testing of new functionalities without major refactoring.
+
+\section{Summary}
+\label{sec:method-summary}
+
+This chapter has examined the core design and implementation details of the system, emphasizing how quantization, prompt engineering, retrieval-augmented generation, and agent-like orchestration converge to form a cohesive solution. The choice of LLaMA 3.1 8B Instruct was guided by a need for a balance between large-scale model capabilities and practical deployment constraints. By applying an 8-bit quantization scheme, it became feasible to run the model on moderately sized hardware without sacrificing key performance metrics.
+
+The integration of a retrieval engine mitigates common shortcomings of large models, particularly when addressing domain-specific or dynamic topics, while the agent framework extends the system’s capabilities to handle tasks that require external computation. In the next chapter, we will explore how these architectural elements perform in practice by examining both quantitative evaluations and qualitative user studies, thereby shedding light on the system’s strengths, limitations, and areas in need of further refinement.
