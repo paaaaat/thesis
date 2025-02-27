@@ -1,6 +1,6 @@
 INFO:  latexindent.exe version 3.23.4, 2023-11-19, a script to indent .tex files
        latexindent.exe lives here: C:/texlive/2023/bin/windows/
-       Sun Feb 23 12:05:27 2025
+       Wed Feb 26 11:39:32 2025
        Reading input from STDIN
 INFO:  Processing switches:
        -w|--overwrite: Overwrite mode active, will make a back up before overwriting
