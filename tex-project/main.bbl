@@ -1284,6 +1284,135 @@
       \verb https://www.w3schools.com/gen_ai/chatgpt-3-5/chatgpt-3-5_roles.php
       \endverb
     \endentry
+    \entry{gyawali2023gpu}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=d2bd982770c2e323238c0f9e57fec26c}{%
+           family={Gyawali},
+           familyi={G\bibinitperiod},
+           given={Dipesh},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{d2bd982770c2e323238c0f9e57fec26c}
+      \strng{fullhash}{d2bd982770c2e323238c0f9e57fec26c}
+      \strng{bibnamehash}{d2bd982770c2e323238c0f9e57fec26c}
+      \strng{authorbibnamehash}{d2bd982770c2e323238c0f9e57fec26c}
+      \strng{authornamehash}{d2bd982770c2e323238c0f9e57fec26c}
+      \strng{authorfullhash}{d2bd982770c2e323238c0f9e57fec26c}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.DC}
+      \field{eprinttype}{arXiv}
+      \field{title}{Comparative Analysis of CPU and GPU Profiling for Deep Learning Models}
+      \field{year}{2023}
+      \verb{eprint}
+      \verb 2309.02521
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2309.02521
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2309.02521
+      \endverb
+    \endentry
+    \entry{colab2025}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=8b36e9207c24c76e6719268e49201d94}{%
+           family={{Google}},
+           familyi={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{8b36e9207c24c76e6719268e49201d94}
+      \strng{fullhash}{8b36e9207c24c76e6719268e49201d94}
+      \strng{bibnamehash}{8b36e9207c24c76e6719268e49201d94}
+      \strng{authorbibnamehash}{8b36e9207c24c76e6719268e49201d94}
+      \strng{authornamehash}{8b36e9207c24c76e6719268e49201d94}
+      \strng{authorfullhash}{8b36e9207c24c76e6719268e49201d94}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{Google Colaboratory}}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://colab.research.google.com/
+      \endverb
+      \verb{url}
+      \verb https://colab.research.google.com/
+      \endverb
+    \endentry
+    \entry{nvidia2025}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=a2fe9051fe051f819bd739ef3e340377}{%
+           family={{NVIDIA}},
+           familyi={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{a2fe9051fe051f819bd739ef3e340377}
+      \strng{fullhash}{a2fe9051fe051f819bd739ef3e340377}
+      \strng{bibnamehash}{a2fe9051fe051f819bd739ef3e340377}
+      \strng{authorbibnamehash}{a2fe9051fe051f819bd739ef3e340377}
+      \strng{authornamehash}{a2fe9051fe051f819bd739ef3e340377}
+      \strng{authorfullhash}{a2fe9051fe051f819bd739ef3e340377}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{Tesla T4 - NVIDIA Data Center}}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://www.nvidia.com/it-it/data-center/tesla-t4/
+      \endverb
+      \verb{url}
+      \verb https://www.nvidia.com/it-it/data-center/tesla-t4/
+      \endverb
+    \endentry
+    \entry{dettmers2022int8}{misc}{}
+      \name{author}{4}{}{%
+        {{hash=67a40f4e13f66c2e43ce4d7d64b9d9a4}{%
+           family={Dettmers},
+           familyi={D\bibinitperiod},
+           given={Tim},
+           giveni={T\bibinitperiod}}}%
+        {{hash=c97f53fdeeb04c28de19e3324cb4bc0a}{%
+           family={Lewis},
+           familyi={L\bibinitperiod},
+           given={Mike},
+           giveni={M\bibinitperiod}}}%
+        {{hash=068d5ef1b808a6112c6f79339693e8d7}{%
+           family={Belkada},
+           familyi={B\bibinitperiod},
+           given={Younes},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=1dbd3a5b42828fb2cebd7786488ba425}{%
+           family={Zettlemoyer},
+           familyi={Z\bibinitperiod},
+           given={Luke},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{a50dbcd4c24eb2e86d45d36ef4076dc0}
+      \strng{fullhash}{603f4ce162511351bb4f34a03cfc3c79}
+      \strng{bibnamehash}{a50dbcd4c24eb2e86d45d36ef4076dc0}
+      \strng{authorbibnamehash}{a50dbcd4c24eb2e86d45d36ef4076dc0}
+      \strng{authornamehash}{a50dbcd4c24eb2e86d45d36ef4076dc0}
+      \strng{authorfullhash}{603f4ce162511351bb4f34a03cfc3c79}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{title}{LLM.int8(): 8-bit Matrix Multiplication for Transformers at Scale}
+      \field{year}{2022}
+      \verb{eprint}
+      \verb 2208.07339
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2208.07339
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2208.07339
+      \endverb
+    \endentry
   \enddatalist
 \endrefsection
 \endinput

@@ -1,7 +1,46 @@
-\section{Descrizione degli obiettivi specifici del progetto}
-\section{Scelta di LLaMA 3.1 8B Instruct: motivazioni e vantaggi}
-\section{Quantizzazione a 8 bit: principi e tto sulle prestazioni}
-\section{Prompt engineering e RAG}
-\section{Integrazione di un comportamento di tipo agent AI” (tool usage)}
-\section{Strumenti e ambienti di sviluppo utizzati (framework, hardware, librerie)}
-\section{Descrizione step-by-step dell’implementazione (pipeline e flusso di lavoro)}
+The primary objective of this thesis is to engage in developing an LLM-based application for suggesting points of interest to tourists visiting the city of Verona, Italy. It does so by leveraging latest open-source language models and constructing the best possible path to pursue giving the limited resources at disposal and harnessing current literature and best-praciteces in developing such systems.
+
+In this chapter, the development environment will be presented, putting into practice previously discussed techniques with the aim of building a robust system for enhanced tourist engagement. It tries to emphasize the integration of open-source tools and data analytics to ensure accurate interactions. Details on the software architecture, hardware requirements, and experimental design will be discussed, alongside an evaluation of system performance. This comprehensive approach is intended to validate the effectiveness of the proposed LLM-based application in a real-world tourist context.
+
+
+\section{Experimental Setting}
+\label{sec:experimental-setting}
+
+As stressed in previous chapters, implementing Large Language Models is computationally expensive. In current literature and industry, the construction of a language model, from training to fine-tuning to inference, the computation is made possible by exploiting the computational power given by Graphic Processing Units (GPUs), largely involved for gaming purposes and now adopted by the AI field for these characteristics: \cite{gyawali2023gpu}
+
+\begin{itemize}
+    \item \textbf{Parallelism:} Modern GPUs contain thousands of cores optimized for floating-point operations, involved in training and inference of deep learning models-vector and matrix operations. These kind of operations can be performed more efficiently than a typical CPU, which is designed for general-purspose tasks.
+    \item \textbf{High Memory Bandwidth:} GPUs have higher memory bandwidth than CPUs, which is crucial for quickly moving large amounts of data into and out of procesing units, as LLMs require reading and writing big matrices multiple times across each training step and during inference.
+    \item \textbf{Ecosystem Maturity and Software Support:} Research and industry have heavily relied and invested on GPUs, producing major deep learning frameworks that are optimized and make it relatively straightforward to leverage GPU acceleration. Alternative accelerators as TPUs (Google) exist, but GPUs still dominate much of the market due to their wide availability.
+\end{itemize}
+
+An environment that offers free access to this technology for research and personal projects in Data Science and Artifical Intelligence fields is Google Colaboratory. \cite{colab2025} Also called "Colab"for short, it is a cloud-based interactive environment developed by Google that allows to write and execute Python code directly from a web browser, and it is built on top of the open-source Jupyter Notebook framework. The choice has been driven by the availability of free computing resources, particularly to GPUs for performing computationally expensive tasks without incurring in extra costs; another quid is that Colab comes with many popular Python libraries pre-installed such as Numpy, Pandas and PyTorch, reducing the setup time (additional packages can be installed without any additional costs) and so allowing to begin prototyping right away.
+
+This project has been built upon the NVIDIA Tesla T4 GPU, designed primarily for AI inference as well as training, which comes with 16GB of GDDR6 memory and support for INT8 precision format (more on this in the next section). This setting ensures efficiency in inference tasks while keeping power consumption low, allowing to work with moderately large models and datasets. \cite{nvidia2025}
+
+
+\section{Choice of Architecture}
+\label{sec:architecture-choice}
+
+The number of LLM models are rising over time, and the number is expected to grow, as hardware is refined and parameters increase. The current number of architecture is set to be around 50, both open- and closed-source. Among the ones that are fully transparent, meaning that are open-weights and the corpora upon they have been trained, some notable examples are LLaMa by Meta \cite{touvron2023llama} and Bloom by BigScience (a worldwide collaborative research initiative coordinated by HuggingFace). \cite{scao2022bloom}
+
+Both models piqued interest due to their open-source nature, offering high degree of customization; however, Bloom's size (176 billion parameters) made it less practical for this specific use-case, demanding significant computational resources that was definetely a barrier. In constrast, LLaMa stood out with its flexibilitym available in a range of sizes-from 7 billion parameters for the original architecture to 405 billion of the third generation.
+
+\subsection{LLaMa}
+\label{sec:llama}
+
+Few trials on the lightweight and latest models, namely LLaMa 3.2 1B and 3B released in Semptember 2024, made it clear that the scaling law was to be obied to, as the initial experimental results were scarce both in generalization and few-shot capabilities. Techniques such as RAG and Prompt Engineering seen in Sections \ref{sec:rag} and \ref{sec:prompt-engineering} had no effect in enhancing a dialogue towards tourism specific suggestions, and factual knowledge of the city of Verona seemed poor. Ultimately, the choice fell on LLaMa 3.1 8B-Instruct, released in April 2024, that stood out due to improved performance compared to its sibiling, a context length of 128K token that allows seamless multi-turn conversations and multilingual capabilities. The "Instruct" variant offers a more natural interaction in comparison with the base model. The model has been obtained from Hugging Face (HF), with appropriate license agreement, receving the access to the HF repository.
+
+
+\subsection{8-Bit Quantization}
+\label{sec:quantization}
+
+The model LLaMa 3.1 8B-Instruct was chosen for its balance of effiency and performance, offering a relatively lightweight architecture among large language models while still delivering a 128K context lenght, but despite its modest parameter count of 8 billion, which positions it as a resource-efficient alternative to larger models, the memory footpring is its native form-approximately 14-16 GB o VRAM in FP16 precision-proved excessive for the computational constraints of this research, especially when using the T4 GPU mentioned before, which is positioned as a consumer-grade hardware. To address this limitation, an 8-bit quantization approach has been adopted.
+
+\textbf{Quantization} is a technique used to reduce the computational and memory requirements of models, making them more efficient for deployment on servers and edge devices. It involves representing model weights and activations, typically 32-bit floating numbers, with lower precision data such as 16-bit float, 8-bit int, or even 4/3/2/1-bit int. This enables loading larger models one normally would not be able to fit into memory, speeding up inference. \cite{dettmers2022int8}. In particular, 8-bit quantization has been proven to offer a notable reduction in memory footpring for matrix multiplications, without significantly impacting model quality or performance.
+
+In this particular setting, 8-bit quantization technique reduced the model’s memory requirements to approximately 8-10 GB of VRAM, while preserving its inferential capabilities, suitable to work on the selected hardware.
+
+
+\subsection{Development Ecosystem: Frameworks and Libraries}
+\label{sec:development-ecosystem}
