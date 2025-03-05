@@ -1413,6 +1413,14 @@
       \verb https://arxiv.org/abs/2208.07339
       \endverb
     \endentry
+    \entry{openmeteo}{misc}{}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://open-meteo.com/}}
+      \field{title}{Open-Meteo: Free Weather API}
+      \field{year}{2023}
+    \endentry
   \enddatalist
 \endrefsection
 \endinput
