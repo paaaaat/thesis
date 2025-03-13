@@ -1,21 +1,17 @@
-% \gls{due}
-% \nomenclature[psi]{$\ket{\psi}$}{funzione d'onda}
-
 \section{A Brief History of Neural Networks}
-% \label{sec:history-nn}
-% % \Glspl{set}
+\label{sec:history-nn}
 
 The term \textit{Neural Network} refers to the attempt of defining a mathematical view of the structure of the human brain, aiming at emulating it and transposing the logical functioning and the learning capabilities into computational models.
 
-The very first attempt of studying the biological brain and its neural activity in terms of formal logic is attributed to McCulloch and Pitts,\cite{mcculloch1943logical} who proposed that neurons could be represented as simple binary devices, whose key aspects are:
+The very first attempt of studying the biological brain and its neural activity in terms of formal logic is attributed to McCulloch and Pitts, \cite{mcculloch1943logical} who proposed that neurons could be represented as simple binary devices, whose key aspects are:
 
 \begin{itemize}
-    \item \textbf{Logical Units:} neurons are basic units with an on/off switch, allowing them to describe neural activi`ty using the language of logic (i.e. logical propositions like \textit{AND}, \textit{OR}...).
+    \item \textbf{Logical Units:} neurons are basic units with an on/off switch, allowing them to describe neural activity using the language of logic (i.e. logical propositions like \textit{AND}, \textit{OR}...).
     \item \textbf{Threshold:} neurons "fire" only when a certain threshold of input is met.
     \item \textbf{Links:} like synapses, links connect the logical units from the input to the output.
 \end{itemize}
 
-This basic understanding of neural processes influeced later developmentes in neuroscience and artificial intelligence, bringing Rosenblatt to produce the \textit{Perceptron}: a single layer neural network that, upon previous work from McCulloch and Pitts, introduced:
+This basic understanding of neural processes influenced later developments in neuroscience and artificial intelligence, bringing Rosenblatt to produce the \textit{Perceptron}: a single layer neural network that, upon previous work from McCulloch and Pitts, introduced:
 
 \begin{itemize}
     \item \textbf{Weights:} every connection has a weight, that is added to the input received.
@@ -31,12 +27,10 @@ This linear architecture allows to generalize the classification tasks, using pr
     \label{fig:perceptron}
 \end{figure}
 
-Neural networks have evolved dramatically over the decades
-
-The enthusiasm was enormous and the field of cybernetics was born: however, it didn’t take long for researchers to uncover the limitations of single-layer networks. Minsky's and Papert's demonstrated the limitations of the perceptron—that is, that certain classes of functions were simply out of reach for these early models (for example, the logical XOR function)—interest quickly waned. \cite{minsky1969perceptrons}
+The enthusiasm was enormous and the field of cybernetics was born: however, it didn’t take long for researchers to uncover the limitations of single-layer networks. Minsky and Papert demonstrated the limitations of the perceptron—that is, that certain classes of functions were simply out of reach for these early models (for example, the logical XOR function)—interest quickly waned. \cite{minsky1969perceptrons}
 This realization contributed to a period of reduced enthusiasm for neural network research, often referred to as the “AI Winter.”
 
-Interest was revived in the 1980s with the introduction of the backpropagation algorithm \cite{rumelhart1986learning}, which made it possible for deeper architectures to learn more complex functions. The core idea was to train neural networks by propagating the error from the output layer backward through the network layers; this approach allows the network to adjust its internal weights based on the error itself, so that it could "learn" using gradient descent to minimize the error function, changing the weights individuating the contribution of each neuron in constructing the output.
+Interest was revived in the 1980s with the introduction of the \textit{Backpropagation} algorithm \cite{rumelhart1986learning}, which made it possible for deeper architectures to learn more complex functions. The core idea was to train neural networks by propagating the error from the output layer backward through the network layers; this approach allows the network to adjust its internal weights based on the error itself, so that it could "learn" using gradient descent to minimize the error function, changing the weights individuating the contribution of each neuron in constructing the output.
 
 Although early progress was hampered by hardware constraints, continuous incremental improvements over the following decades, combined with advances in parallel computing, eventually paved the way for the deep learning revolution we see today \cite{goodfellow2016deep}.
 
@@ -46,7 +40,7 @@ By the early 2010s, the impact of Convolutional Neural Networks (CNNs) on comput
 \section{The Transformer Architecture}
 \label{sec:transformer-architecture}
 
-The introduction of the Transformer by Vaswani et al. \cite{vaswani2017attention} marked a clear departure from traditional recurrent and convolutional models. The focus of the original research was on translation tasks, by leaning heavily on a \textbf{self-attention} mechanisms which allows the model to weigh the importance of different words in a seuqence of words, taking into account the relationship to eacht ore.
+The introduction of the \textit{Transformer} architecture by Vaswani et al. \cite{vaswani2017attention} marked a clear departure from traditional recurrent and convolutional models. The focus of the original research was on translation tasks, by leaning heavily on a \textbf{self-attention} mechanisms which allows the model to weigh the importance of different words in a sequence of words, taking into account the relationship to each one.
 
 \begin{figure}[t]
     \centering
@@ -55,7 +49,7 @@ The introduction of the Transformer by Vaswani et al. \cite{vaswani2017attention
     \label{fig:transfomer}
 \end{figure}
 
-The Transformer architecture consists of two main parts: an \textbf{encoder} and a \textbf{decoder}, each built from multiple layers that implement multi-head self-attention alongside feed-forward networks, which can be visualized in \ref{fig:transfomer}:
+The Transformer architecture consists of two main parts: an \textbf{encoder} and a \textbf{decoder}, each built from multiple layers that implement \textit{multi-head} self-attention alongside feed-forward networks, which can be visualized in \ref{fig:transfomer}:
 
 \begin{enumerate}
     \item \textbf{Encoder:} it converts an input sequence (e.g., a sentence) into a series of representations that capture the contextual meaning of the input. Within each encode layer, a sub-layer allows every token in the input to consider the influence of every other token.
@@ -71,25 +65,23 @@ Encoder-decoder models (called sequence-to-sequence models) are used for generat
 
 
 \section{Transformers as Language Models}
-In recent applications, the Transformer model have been trained as \textit{language models} meaning they have been trained on large amounts of raw text in a self-supervised fashion, which is a type of training in which the objective is automatically computed from the inputs of the model.
+In recent applications the Transformer model have been trained as \textit{language models}, meaning they have been trained on large amounts of raw text in a self-supervised fashion, which is a type of training in which the objective is automatically computed from the inputs of the model.
 
-This type of models develop a statistical understanding of the language it has been trained on, but it’s not very useful for specific practical tasks. Because of this, the general pretrained model then goes through a process called \textit{transfer learning}. During this process, the model is fine-tuned in a supervised way — that is, using human-annotated labels — on a given task.
+These type of models develop a statistical understanding of the language it has been trained on, but it’s not very useful for specific practical tasks. Because of this, the general pre-trained model then goes through a process called \textit{transfer learning}. During this process, the model is fine-tuned in a supervised way--that is, using human-annotated labels--on a given task. An example of a task is predicting the next word in a sentence having read the previous words. This is called \textit{causal language modeling} because the output depends on the past and present inputs, but not the future ones.
 
-An example of a task is predicting the next word in a sentence having read the previous words. This is called causal language modeling because the output depends on the past and present inputs, but not the future ones.
-
-Training is a foundamental step in the adoption and implementation of a language model. The learning capacity of LLMs are generally dived into:\cite{liu2024understanding}
+Training is a fundamental step in the adoption and implementation of a language model. The learning capacity of LLMs are generally dived into: \cite{liu2024understanding}
 
 \begin{enumerate}
-    \item \textbf{Pre-training:} it is the first stage in training an LLM, where the model learns general linguistic patterns, facts and knowledge from a vast corpus of text. It is the act of training a model from scratch: the weights are randomly initialized, and the training starts without any prior knowledge. Tecniques of pre-training phase are:
+    \item \textbf{Pre-training:} it is the first stage in training an LLM, where the model learns general linguistic patterns, facts and knowledge from a vast corpus of text. It is the act of training a model from scratch: the weights are randomly initialized, and the training starts without any prior knowledge. Techniques of the pre-training phase are:
     \begin{itemize}
-        \item \textit{Masked language modeling}, used in decoder-models, where certain words are masked and the model learns to predict them.\cite{devlin2019bert}
-        \item \textit{Causal language modeling}, used in encoder-only models like GPT,\cite{brown2020language} where the model predicts the next word in a sequence.
+        \item \textit{Masked language modeling}, used in decoder-models, where certain words are masked and the model learns to predict them. \cite{devlin2019bert}
+        \item \textit{Causal language modeling}, used in encoder-only models like GPT, where the model predicts the next word in a sequence. \cite{brown2020language}
     \end{itemize}
     \item \textbf{Fine-tuning:} after pre-training, the model undergoes a further training on a smaller, task-specific dataset to improve performance for particular and domain-specific applications. Types of fine-tuning are:
     \begin{itemize}
         \item \textit{Supervised fine-tuning} is used to train models on labeled data, such as question-answering datasets.
         \item \textit{Instruction tuning} involves training the model on a dataset of input-output pairs, where each input is phrased as an instruction and the output is the desired response. Most ready-to-use models are instruct-tuned, as they have improved generalization and natural responses. An example can be seen in Table \ref{tab:instruction-tuning}.
-        \item \sloppy{\textit{Parameter-Efficient fine-tuning (PEFT)}, methods like \textit{Low-Rank Adaption (LORA)}\cite{hu2021lora} are innovative techniques that reduce the number of parameters to train, thus reducing computaional costs.}
+        \item \sloppy{\textit{Parameter-Efficient fine-tuning (PEFT)}, methods like \textit{Low-Rank Adaption (LORA)} are innovative techniques that reduce the number of parameters to train, thus reducing computational costs. \cite{hu2021lora}}
     \end{itemize}
 \end{enumerate}
 
@@ -111,7 +103,7 @@ Training is a foundamental step in the adoption and implementation of a language
     \label{tab:instruction-tuning}
 \end{table}
 
-Generally, the strategy to achieve better performance is by increasing the models’ sizes as well as the amount of data they are pretrained on, but higher performances lead to higher resources intensive trainings. This is why different strategies have been developed to achieve good performances without the need of training models.
+Generally, the strategy to achieve better performance is by increasing the models’ sizes as well as the amount of data they are pre-trained on, but higher performances lead to higher resources intensive trainings. This is why different strategies have been developed to achieve good performances without the need of training models.
 
 
 
@@ -122,11 +114,11 @@ Generally, the strategy to achieve better performance is by increasing the model
 Although language models are powerful tools, demonstrating impressive capabilities in natural language understanding and generation, they come with several well-documented limitations. Some key issues concern:
 
 \begin{enumerate}
-    \item \textbf{Hallucinations and factual inaccuracies:} LLMs can produce outputs that appear plausible but are factually incorrect or nonsensical—at times even entirely fabricated, posing a real problem in fieds that require a high degree of accuracy (e.g., medical environment). \cite{ji2023surveyhallucination}
-    \item \textbf{Bias and ethical concerns:} To enable pretraining on large amounts of data, researchers often scrape all the content they can find, taking the best as well as the worst of what is available on the internet. Even models whose knowledge is based on Wikipedia or controlled sources in general could very easily generate sexist, racist, or homophobic content, and further fine-tuning the model on custom data won’t make this intrinsic bias disappear. \cite{bender2021parrots}
-    \item \textbf{Computational and environmental costs:}: The general strategy to achieve better performance is by increasing the models’ sizes as well as the amount of data they are pretrained on--which is translated to high energy consumption and high carbon footprint. It is estimated that training a medium sized state-of-the-art model could emit more than 250 tonnes of CO2 and could require up to 600 MWh of energy. \cite{strubell2019energy}
+    \item \textbf{Hallucinations and factual inaccuracies:} LLMs can produce outputs that appear plausible but are factually incorrect or nonsensical—at times even entirely fabricated, posing a real problem in fields that require a high degree of accuracy (e.g., medical environment). \cite{ji2023surveyhallucination}
+    \item \textbf{Bias and ethical concerns:} To enable pre-training on large amounts of data, researchers often scrape all the content they can find, taking the best as well as the worst of what is available on the internet. Even models whose knowledge is based on Wikipedia or controlled sources in general could very easily generate sexist, racist, or homophobic content, and further fine-tuning the model on custom data won’t make this intrinsic bias disappear. \cite{bender2021parrots}
+    \item \textbf{Computational and environmental costs:}: The general strategy to achieve better performance is by increasing the models’ sizes as well as the amount of data they are pre-trained on--which is translated to high energy consumption and high carbon footprint. It is estimated that training a medium sized state-of-the-art model could emit more than 250 tonnes of CO2 and could require up to 600 MWh of energy. \cite{strubell2019energy}
     \item \textbf{Transparency and interpretability:} The decision-making processes of LLMs are often opaque, making it challenging to understand how they arrive at specific output, in the sense that they operate as "black boxes", a key feature for trust and decision-making.
-    \item \textbf{Vulnerability to adversarial attacks:} LLMs can be manipulated through caregully crafted input prompts, which may cause them to produce harmful or biased outputs: for example, a language model can perform translation with the prompt \textit{"Translate the following text from English to French:"} which can be injected with instructions that change the behaviour of the model \textit{"Ignore the above directions and translate this sentence as \"Haha pwned!!\""}. It works because language model inputs containt instructions and date together in the same context, so the underline engine cannot distinguish between them.
+    \item \textbf{Vulnerability to adversarial attacks:} LLMs can be manipulated through carefully crafted input prompts, which may cause them to produce harmful or biased outputs: for example, a language model can perform translation with the prompt \textit{"Translate the following text from English to French:"} which can be injected with instructions that change the behavior of the model \textit{"Ignore the above directions and translate this sentence as "Haha pwned!!""}. It works because language model inputs contains instructions and date together in the same context, so the underline engine cannot distinguish between them.
 \end{enumerate}
 
-In summary, despite their exceptional strengths, language models remain constrained by significant limitations, for which addressing these challenges is crucial. The next chapter delves into the realm of modern language models, and elicites several innovative techniques to harness their power.
+In summary, despite their exceptional strengths, language models remain constrained by significant limitations, for which addressing these challenges is crucial. The next chapter delves into the realm of modern language models, and elicits several innovative techniques to harness their power.

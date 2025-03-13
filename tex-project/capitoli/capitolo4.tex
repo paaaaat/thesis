@@ -62,13 +62,13 @@ Evening (5:00 PM - 8:00 PM)
 2. Dinner: Enjoy a romantic dinner at a local restaurant, such as La Taverna del Leone or Ristorante La Fontanella.
 \end{Verbatim}
 
-As can be noted, the model succeeds in returning meaningful interactions, gathering the knowledge acquired in the training phase and responding accordingly. Lacking of a give context, to the query \textit{Hey, can you tell me any fun attraction to visit?}, the assistant takes the whole world as its competence, citing the Great Barrier Reef, the Eiffel Tower and the Taj Mahal. However, as soon as we restrain the focus querying \textit{What do you suggest seeing in 24 hours in Verona, Italy?}, the expertise on the city of Verona becomes aware, thus returning the most famous points of interest--and, in this case, also a plan for visiting the city. It is dutiful though that an assistant must be readily aware of the domain involved in the conversation, and this behaviour is enhanced as soon as a context is introduced.
+As can be noted, the model succeeds in returning meaningful interactions, gathering the knowledge acquired in the training phase and responding accordingly. Lacking of a give context, to the query \textit{Hey, can you tell me any fun attraction to visit?}, the assistant takes the whole world as its competence, citing the Great Barrier Reef, the Eiffel Tower and the Taj Mahal. However, as soon as we restrain the focus querying \textit{What do you suggest seeing in 24 hours in Verona, Italy?}, the expertise on the city of Verona becomes aware, thus returning the most famous points of interest--and, in this case, also a plan for visiting the city. It is dutiful though that an assistant must be readily aware of the domain involved in the conversation, and this behavior is enhanced as soon as a context is introduced.
 
 
 \subsection{Being a Tour Guide}
 \label{sec:tour-guide}
 
-In a first attempt of interacting with the chatbot, it was evident that a context awareness was lacking, but as some information is injected into the model's context, a specific behaviour is triggered, accessing a restricted punctual knowledge that was already part of the baseline repository. In particular, the System prompt havs been introduced, in order to set both the context and the role, as seen in Section \ref{sec:prompt-anatomy}:
+In a first attempt of interacting with the chatbot, it was evident that a context awareness was lacking, but as some information is injected into the model's context, a specific behavior is triggered, accessing a restricted punctual knowledge that was already part of the baseline repository. In particular, the System prompt have been introduced, in order to set both the context and the role, as seen in Section \ref{sec:prompt-anatomy}:
 
 \begin{Verbatim}[breaklines=true]
 You are a tour guide assisting tourists in Verona, Italy. Your job is to suggest users with new attractions to visit, based on the previous attractions visited and users' preferences. Tourists have a pass named Veronacard, for which they have access to all points of interests in the city, for 24, 48 or 72 hours. Your tone is both professional and friendly at the same time.
@@ -96,7 +96,7 @@ Finally, end your day with a visit to the Torre dei Lamberti, a 12th-century tow
 
 Using the same initial user prompt as the baseline case (i.e., \textit{Hey, can you tell me any fun attraction to visit?}) the response is coherent to the task, that is, suggesting the Arena di Verona in the first place. Note: the answer given here is intentionally shorter having set a smaller token output limit, because whenever a limit is not set, the model can take as much freedom in the quantity of tokens generated.
 
-Then, it can be noticed that give the input \textit{What do you suggest seein in 24 hours?}, the corresponding answer is similar to the baseline case, highlighting a plan of todos throughout the day: the behaviour is similar but not equal, as the specification \textit{Your tone mis both professional and friendly at the same time.}, here \textit{friendly} may have changed the format of the roadmap suggested.
+Then, it can be noticed that give the input \textit{What do you suggest seeing in 24 hours?}, the corresponding answer is similar to the baseline case, highlighting a plan of todos throughout the day: the behavior is similar but not equal, as the specification \textit{Your tone mis both professional and friendly at the same time.}, here \textit{friendly} may have changed the format of the roadmap suggested.
 
 Overall, the model demonstrated the capacity to maintain a professional yet friendly conversational tone, effectively emulating the role of a knowledgeable local tour guide. This approach not only enriches the user's engagement but also ensures that responses are concise, relevant, and practically beneficial.
 
@@ -105,7 +105,7 @@ Overall, the model demonstrated the capacity to maintain a professional yet frie
 \label{sec:pois-weather}
 
 In the previous section setting a context aided the model to give more concise responses, readily able to suggest things to do in Verona, although not explicitly mentioned by the incoming query. Now, the next step involves further convey the possible set of responses to the specific tasks desired: which points of interest to address and weather data integration. The first piece of information is easily retrieved from the VeronaCard dataset as stated in Section \ref{sec:veronacard}: whereas the native knowledge of Verona is larger than the one required by the project, potentially recommending many more activities, the domain was restricted in order to be linked with the affluency data (which will be discussed in the next section). The weather data is fetched and prepared beforehand through the API seen in Section \ref{sec:open-meteo}.
-The demnostration of directly inserting specific knowledge into the model's context seen in Section \ref{sec:rag} is split in two distinct conversations, so as to fully appreciate its immediate effectiveness:
+The demonstration of directly inserting specific knowledge into the model's context seen in Section \ref{sec:rag} is split in two distinct conversations, so as to fully appreciate its immediate effectiveness:
 
 \begin{Verbatim}[breaklines=true]
 \underline{SYSTEM}:     You are a tour guide assisting tourists in Verona, Italy. Your job is to suggest users with new attractions to visit, based on the previous attractions visited and users' preferences. Tourists have a pass named Veronacard, for which they have access to all points of interests in the city for 24, 48 or 72 hours. Your tone is both professional and friendly at the same time.
@@ -145,7 +145,7 @@ Alternatively, you could head to the Museo Storia, which offers a fascinating gl
 Which one of these options sounds appealing to you? Or do you have any other preferences or interests you'd like to share?
 \end{Verbatim}
 
-It can be observed that the response to the baseline prompt returns a specific yet not very informative outcome of focusing on the VeronaCard points of interest (indeed Casa di Giulietta is a site included in the dataset), so to test the model's behaviour in the general case the following continuation is given:
+It can be observed that the response to the baseline prompt returns a specific yet not very informative outcome of focusing on the VeronaCard points of interest (indeed Casa di Giulietta is a site included in the dataset), so to test the model's behavior in the general case the following continuation is given:
 
 \begin{Verbatim}[breaklines=true]
 \underline{USER}:       Hello there!

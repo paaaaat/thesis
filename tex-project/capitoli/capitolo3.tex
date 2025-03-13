@@ -9,12 +9,12 @@ In this chapter, the development environment will be presented, putting into pra
 As stressed in previous chapters, implementing Large Language Models is computationally expensive. In current literature and industry, the construction of a language model, from training to fine-tuning to inference, the computation is made possible by exploiting the computational power given by Graphic Processing Units (GPUs), largely involved for gaming purposes and now adopted by the AI field for these characteristics: \cite{gyawali2023gpu}
 
 \begin{itemize}
-    \item \textbf{Parallelism:} Modern GPUs contain thousands of cores optimized for floating-point operations, involved in training and inference of deep learning models--vector and matrix operations. These kind of operations can be performed more efficiently than a typical CPU, which is designed for general-purspose tasks.
-    \item \textbf{High Memory Bandwidth:} GPUs have higher memory bandwidth than CPUs, which is crucial for quickly moving large amounts of data into and out of procesing units, as LLMs require reading and writing big matrices multiple times across each training step and during inference.
+    \item \textbf{Parallelism:} Modern GPUs contain thousands of cores optimized for floating-point operations, involved in training and inference of deep learning models--vector and matrix operations. These kind of operations can be performed more efficiently than a typical CPU, which is designed for general-purpose tasks.
+    \item \textbf{High Memory Bandwidth:} GPUs have higher memory bandwidth than CPUs, which is crucial for quickly moving large amounts of data into and out of processing units, as LLMs require reading and writing big matrices multiple times across each training step and during inference.
     \item \textbf{Ecosystem Maturity and Software Support:} Research and industry have heavily relied and invested on GPUs, producing major deep learning frameworks that are optimized and make it relatively straightforward to leverage GPU acceleration. Alternative accelerators as TPUs (Google) exist, but GPUs still dominate much of the market due to their wide availability.
 \end{itemize}
 
-An environment that offers free access to this technology for research and personal projects in Data Science and Artifical Intelligence fields is Google Colaboratory. \cite{colab2025} Also called "Colab"for short, it is a cloud-based interactive environment developed by Google that allows to write and execute Python code directly from a web browser, and it is built on top of the open-source Jupyter Notebook framework. The choice has been driven by the availability of free computing resources, particularly to GPUs for performing computationally expensive tasks without incurring in extra costs; another quid is that Colab comes with many popular Python libraries pre-installed such as Numpy, Pandas and PyTorch, reducing the setup time (additional packages can be installed without any additional costs) and so allowing to begin prototyping right away.
+An environment that offers free access to this technology for research and personal projects in Data Science and Artificial Intelligence fields is Google Colaboratory. \cite{colab2025} Also called "Colab"for short, it is a cloud-based interactive environment developed by Google that allows to write and execute Python code directly from a web browser, and it is built on top of the open-source Jupyter Notebook framework. The choice has been driven by the availability of free computing resources, particularly to GPUs for performing computationally expensive tasks without incurring in extra costs; another quid is that Colab comes with many popular Python libraries pre-installed such as Numpy, Pandas and PyTorch, reducing the setup time (additional packages can be installed without any additional costs) and so allowing to begin prototyping right away.
 
 This project has been built upon the NVIDIA Tesla T4 GPU, designed primarily for AI inference as well as training, which comes with 16GB of GDDR6 memory and support for INT8 precision format (more on this in the next section). This setting ensures efficiency in inference tasks while keeping power consumption low, allowing to work with moderately large models and datasets. \cite{nvidia2025}
 
@@ -24,20 +24,20 @@ This project has been built upon the NVIDIA Tesla T4 GPU, designed primarily for
 
 The number of LLM models are rising over time, and the number is expected to grow, as hardware is refined and parameters increase. The current number of architecture is set to be around 50, both open- and closed-source. Among the ones that are fully transparent, meaning that are open-weights and the corpora upon they have been trained, some notable examples are LLaMa by Meta \cite{touvron2023llama} and Bloom by BigScience (a worldwide collaborative research initiative coordinated by HuggingFace). \cite{scao2022bloom}
 
-Both models piqued interest due to their open-source nature, offering high degree of customization; however, Bloom's size (176 billion parameters) made it less practical for this specific use-case, demanding significant computational resources that was definetely a barrier. In constrast, LLaMa stood out with its flexibilitym available in a range of sizes--from 7 billion parameters of the original architecture to 405 billion of the third generation.
+Both models piqued interest due to their open-source nature, offering high degree of customization; however, Bloom's size (176 billion parameters) made it less practical for this specific use-case, demanding significant computational resources that was definitely a barrier. In contrast, LLaMa stood out with its flexibility available in a range of sizes--from 7 billion parameters of the original architecture to 405 billion of the third generation.
 
 \subsection{LLaMa}
 \label{sec:llama}
 
-Few trials on the lightweight and latest models, namely LLaMa 3.2 1B and 3B released in Semptember 2024, made it clear that the scaling law was to be obied to, as the initial experimental results were scarce both in generalization and few-shot capabilities. Techniques such as RAG and Prompt Engineering seen in Sections \ref{sec:rag} and \ref{sec:prompt-engineering} had no effect in enhancing a dialogue towards tourism specific suggestions, and factual knowledge of the city of Verona seemed poor. Ultimately, the choice fell on LLaMa 3.1 8B-Instruct, released in April 2024, that stood out due to improved performance compared to its sibiling, a context length of 128K token that allows seamless multi-turn conversations and multilingual capabilities. The "Instruct" variant offers a more natural interaction in comparison with the base model. The model has been obtained from Hugging Face (HF), with appropriate license agreement, receving the access to the HF repository.
+Few trials on the lightweight and latest models, namely LLaMa 3.2 1B and 3B released in September 2024, made it clear that the scaling law was to be obeyed to, as the initial experimental results were scarce both in generalization and few-shot capabilities. Techniques such as RAG and Prompt Engineering seen in Sections \ref{sec:rag} and \ref{sec:prompt-engineering} had no effect in enhancing a dialogue towards tourism specific suggestions, and factual knowledge of the city of Verona seemed poor. Ultimately, the choice fell on LLaMa 3.1 8B-Instruct, released in April 2024, that stood out due to improved performance compared to its sibling, a context length of 128K token that allows seamless multi-turn conversations and multilingual capabilities. The "Instruct" variant offers a more natural interaction in comparison with the base model. The model has been obtained from Hugging Face (HF), with appropriate license agreement, receiving the access to the HF repository.
 
 
 \subsection{8-Bit Quantization}
 \label{sec:quantization}
 
-The model LLaMa 3.1 8B-Instruct was chosen for its balance of effiency and performance, offering a relatively lightweight architecture among large language models while still delivering a 128K context lenght, but despite its modest parameter count of 8 billion, which positions it as a resource-efficient alternative to larger models, the memory footprint is its native form--approximately 14-16 GB o VRAM in FP16 precision--proved excessive for the computational constraints of this research, especially when using the T4 GPU mentioned before, which is positioned as a consumer-grade hardware. To address this limitation, an 8-bit quantization approach has been adopted.
+The model LLaMa 3.1 8B-Instruct was chosen for its balance of efficiency and performance, offering a relatively lightweight architecture among large language models while still delivering a 128K context length, but despite its modest parameter count of 8 billion, which positions it as a resource-efficient alternative to larger models, the memory footprint is its native form--approximately 14-16 GB o VRAM in FP16 precision--proved excessive for the computational constraints of this research, especially when using the T4 GPU mentioned before, which is positioned as a consumer-grade hardware. To address this limitation, an 8-bit quantization approach has been adopted.
 
-\textbf{Quantization} is a technique used to reduce the computational and memory requirements of models, making them more efficient for deployment on servers and edge devices. It involves representing model weights and activations, typically 32-bit floating numbers, with lower precision data such as 16-bit float, 8-bit int, or even 4/3/2/1-bit int. This enables loading larger models one normally would not be able to fit into memory, speeding up inference. \cite{dettmers2022int8} In particular, 8-bit quantization has been proven to offer a notable reduction in memory footpring for matrix multiplications, without significantly impacting model quality and performance.
+\textbf{Quantization} is a technique used to reduce the computational and memory requirements of models, making them more efficient for deployment on servers and edge devices. It involves representing model weights and activations, typically 32-bit floating numbers, with lower precision data such as 16-bit float, 8-bit int, or even 4/3/2/1-bit int. This enables loading larger models one normally would not be able to fit into memory, speeding up inference. \cite{dettmers2022int8} In particular, 8-bit quantization has been proven to offer a notable reduction in memory footprint for matrix multiplications, without significantly impacting model quality and performance.
 
 In this particular setting, 8-bit quantization technique reduced the model’s memory requirements to approximately 8-10 GB of VRAM, while preserving its inferential capabilities, suitable to work on the selected hardware.
 
@@ -53,21 +53,21 @@ A crucial aspect of this project involves the integration of external data to en
 \subsection{VeronaCard Dataset}
 \label{sec:veronacard}
 
-The \textit{VeronaCard} is a cumulative ticket that provides an all-inclusive pass Verona's principal attractions, offering an affordable solution for visiting major points of interest and museums, while also granting special discounts at selected local commerical activities in the city centre; it comes with a 24, 48 or 72 hours span.
+The \textit{VeronaCard} is a cumulative ticket that provides an all-inclusive pass Verona's principal attractions, offering an affordable solution for visiting major points of interest and museums, while also granting special discounts at selected local commercial activities in the city centre; it comes with a 24, 48 or 72 hours span.
 
-The Comune di Verona provided and authorized the usage of a dataset covering the period 2014-2020, which convoyed users' check-ins the the city's key attractions, and included detailed records of the date and time of each visit, the attraction visiteded, the type of card used, and the geographic position of the attraction.
+The Comune di Verona provided and authorized the usage of a dataset covering the period 2014-2020, which convoyed users' check-ins the the city's key attractions, and included detailed records of the date and time of each visit, the attraction visited, the type of card used, and the geographic position of the attraction.
 
 In particular, in its raw format, each entry of the dataset comprised the following attributes:
 
 \begin{itemize}
-    \item \textbf{id\_veronacard:} An alphanumeric string identifying the VeronaCard used. It is completely anonimous, as it is impossible to trace the identity of the user.
+    \item \textbf{id\_veronacard:} An alphanumeric string identifying the VeronaCard used. It is completely anonymous, as it is impossible to trace the identity of the user.
     \item \textbf{profilo:} It indicates the type (24, 48 or 72 hours) of the VeronaCard used.
     \item \textbf{data\_attivazione:} The first usage of the pass dictates the beginning of its validity, and it is a date information.
     \item \textbf{data\_visita:} The date of the check-in to the attraction visited.
-    \item \textbf{ora\_visita:} The timestamp of the check-in to the attraction visited. Together with the date information, it constitutes a precise moment in time whene the user visited a point of interest.
+    \item \textbf{ora\_visita:} The timestamp of the check-in to the attraction visited. Together with the date information, it constitutes a precise moment in time when the user visited a point of interest.
     \item \textbf{sito\_nome:} It indicates the point of interest visited.
     \item \textbf{sito\_latitudine:} The latitude of the point of interest, in decimal degrees.
-    \item \textbf{sito\_longitudine:} The longituide of the point of interest, in decimal degrees.
+    \item \textbf{sito\_longitudine:} The longitude of the point of interest, in decimal degrees.
 \end{itemize}
 
 The dataset provides a comprehensive temporal roadmap of attraction visits by capturing hour-by-hour fluctuations in visitor frequencies and delineating detailed visitation schedules. It serves as an empirical basis for analyzing and modeling the dynamic patterns of tourist movements across various attractions.
@@ -80,7 +80,7 @@ In order to supply real-time weather data to users, the project integrates an ex
 
 This service provides both historical and up-to-date forecasts and current conditions for a specified geographic region, returning JSON-formatted responses with details such as temperature, precipitation, wind speed, and humidity levels: it combines several weather models from national weather services based on the selected location. In the case of retrieving weather data for the city of Verona, the national weather provided is the italian AM ARPAE ARPAP, using COSMO 2I model with a 2 km resolution and maximum forecast length of 3 days.
 
-The API is therefore queried for the project's specific use-case for a one-day forecast, sending an HTTP request of the follwing format:
+The API is therefore queried for the project's specific use-case for a one-day forecast, sending an HTTP request of the following format:
 
 \begin{center}
 \begin{minipage}{0.7\textwidth}
@@ -108,7 +108,7 @@ responses = openmeteo.weather_api(url, params=params)
 \end{minipage}
 \end{center}
 
-By making on-demand queries and integrating weather data into the contecxt, the system can augment its responses with the latest meteorological information, ensuring greater accuracy when, for example, recommending outdoor activities or advising on suitable travel conditions.
+By making on-demand queries and integrating weather data into the context, the system can augment its responses with the latest meteorological information, ensuring greater accuracy when, for example, recommending outdoor activities or advising on suitable travel conditions.
 
 
 
@@ -121,7 +121,7 @@ By making on-demand queries and integrating weather data into the contecxt, the 
 \label{sec:data-preprocessing}
 
 In order to parse, analyze, and visualize data during exploratory and implementation phases, the project makes use of \verb|pandas|, \verb|NumPy|, and \verb|matplotlib|. These libraries are foundational to Python’s data science ecosystem, with \verb|pandas| providing intuitive data structures for tabular information, \verb|NumPy| offering efficient array operations, and \verb|matplotlib| enabling highly customizable plotting capabilities: by leveraging these tools, it becomes straightforward to read raw input files, clean or filter data, and generate descriptive statistics or charts that clarify underlying patterns.
-In the wrangling phase, out of more than 2.000.000 records, some data cleaning have been performed, as approximately 20.000 records were duplicate, nevertheless only 8 records had null values in the attribute \verb|profilo|. Afterwards, some normalization has been made, standardazing all attributes; outliers have been detected, as after a careful analysis, fourteen users were recorded to have checked-in more than 50 times in a day, which sounded too unrealistic (user 25 had checked-in 219 times on 2020-01-03, which is absurd). Indeed, the ID of these users seemed odd: their values ranged from 25 to 46, compared to the rest of the data--an alphanumeric datatype, e.g. \textit{04A653C27B3F80}--which makes one think as test users. Finally, data augmentation procedures were implemented to enhance dataset robustness, specifically additional columns were introduced: among the others, the original date and time fields were separated, and the corresponding weekday was computed.
+In the wrangling phase, out of more than 2.000.000 records, some data cleaning have been performed, as approximately 20.000 records were duplicate, nevertheless only 8 records had null values in the attribute \verb|profilo|. Afterwards, some normalization has been made, standardizing all attributes; outliers have been detected, as after a careful analysis, fourteen users were recorded to have checked-in more than 50 times in a day, which sounded too unrealistic (user 25 had checked-in 219 times on 2020-01-03, which is absurd). Indeed, the ID of these users seemed odd: their values ranged from 25 to 46, compared to the rest of the data--an alphanumeric datatype, e.g. \textit{04A653C27B3F80}--which makes one think as test users. Finally, data augmentation procedures were implemented to enhance dataset robustness, specifically additional columns were introduced: among the others, the original date and time fields were separated, and the corresponding weekday was computed.
 Following completion of the data preparation stage, the subsequent model implementation phase was undertaken.
 
 
@@ -156,7 +156,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 The configuration class \verb|BitsAndBytesConfig|, also provided by the \verb|transformers| library, allows for the 8-bit quantization described in Section \ref{sec:quantization}. By specifying memory-efficient data types such as integer weight representations, the system is able to reduce computational overhead without sacrificing performance metrics.
 
-These modules are indispensable for loading pre-trained model weights and preparing text inputs in a manner consistent with the model’s expected vocabulary and tokenization scheme. Furthermore, it comes with the choice of the configuration schema, allowing to instatiate a language model with the desired parameters in a few lines of code.
+These modules are indispensable for loading pre-trained model weights and preparing text inputs in a manner consistent with the model’s expected vocabulary and tokenization scheme. Furthermore, it comes with the choice of the configuration schema, allowing to instantiate a language model with the desired parameters in a few lines of code.
 
 
 \subsection{User Interface}
@@ -273,7 +273,7 @@ if prompt := st.chat_input("What is up?"):
     
 # Sidebar
 with st.sidebar:
-    st.title(' Veronacard Assistant')
+    st.title('Veronacard Assistant')
     st.subheader('Lorem Ipsum.')
     
 st.sidebar.button('Clear Chat History', on_click=clear_chat_history)
@@ -332,7 +332,7 @@ This function is the engine of the LLM: it is a step-by-step procedure that orch
 
 This function has four parameters:
 \begin{enumerate}
-    \item \textbf{tokenizer:} Is one of the two main characters in defininf the model, as seen in Section \ref{sec:tokenization} and implemented in Code \ref{lst:transformers-script}.
+    \item \textbf{tokenizer:} Is one of the two main characters in defining the model, as seen in Section \ref{sec:tokenization} and implemented in Code \ref{lst:transformers-script}.
     \item \textbf{model:} The second main character, covering both architecture and checkpoints as seen in Section \ref{sec:transformer-architecture} and implemented in Code \ref{lst:transformers-script}.
     \item \textbf{messages:} The chat history between the model and the user. This is a list of dictionaries of the form \texttt{\{"role": System/User/Assistant, "content": The prompt\}}.
     \item \textbf{tool\_call:} Serves whenever a tool call is not conceived, as for example when performing few-shot and teaching the model when to use a tool and when not to use it.
@@ -438,7 +438,7 @@ def generate_response(tokenizer, model, messages, tool_call=True):
 \end{lstlisting}
 \end{center}
 
-The set of tools that enable and agentic behaviour is defined, containing the \texttt{retrieve\_affluency()} function which points to the VeronaCard dataset and extracts affluency data based on day and time. The \textit{tokenizer} method \sloppy{\texttt{apply\_chat\_template()}} comes in aid when parsing human-form text: a chat template is a part of the tokenizer and it specifies how to convert conversations into a single tokenizable string in the expected model format. This is an example of LLaMa 3.1 8B Instruct model's required format:
+\sloppy{The set of tools that enable and agentic behaviour is defined, containing the \texttt{retrieve\_affluency()} function which points to the VeronaCard dataset and extracts affluency data based on day and time. The \textit{tokenizer} method \texttt{apply\_chat\_template()} comes in aid when parsing human-form text: a chat template is a part of the tokenizer and it specifies how to convert conversations into a single tokenizable string in the expected model format. This is an example of LLaMa 3.1 8B Instruct model's required format:}
 
 \begin{Verbatim}[breaklines=true]
 <|begin_of_text|><|start_header_id|>system<|end_header_id|>
@@ -451,11 +451,11 @@ You are a helpful assistant<|eot_id|><|start_header_id|>user<|end_header_id|>
 What is the capital of France?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
 \end{Verbatim}
 
-Different models have different chat formats, and it is important to set a chat template format that matches the template format a model was pretrained on. The above-mentioned method deals with selecting the right format for a given model under the hood, allowing to just input a dictionary with essential role-content keys.
-Finally, this method takes as inputs the chat history, the tools enabling the agentic behaviour and a few more arguments that dictates the tokenizer's basic settings.
-The \texttt{output} variable holds the model generated content, which sets also the \textit{temperature}, a value ranging from 0 to 1, determining the creativity or deterministic response, the maximum \textit{number of tokens} to genereate, a \textit{top\_p} parameter that indicates the most probable tokens to select. The \texttt{response} holds the decoded response of the model.
+Different models have different chat formats, and it is important to set a chat template format that matches the template format a model was pre-trained on. The above-mentioned method deals with selecting the right format for a given model under the hood, allowing to just input a dictionary with essential role-content keys.
+Finally, this method takes as inputs the chat history, the tools enabling the agentic behavior and a few more arguments that dictates the tokenizer's basic settings.
+The \texttt{output} variable holds the model generated content, which sets also the \textit{temperature}, a value ranging from 0 to 1, determining the creativity or deterministic response, the maximum \textit{number of tokens} to generate, a \textit{top\_p} parameter that indicates the most probable tokens to select. The \texttt{response} holds the decoded response of the model.
 
-A normal interaction would return this final response, but the function also handles the case in which the generated response is not textual but, following the flow described in Section \ref{sec:agent-ai}, is a tool call. When this is the case, after parsing the content, it extracts the name of the tool and the parameteres captured by the model, to call the \texttt{retrieve\_affluency()} function in order to get the statistics regarding a specific point of interest in a specific day and time, suggesting to visit that attraction if feasible, otherwise recommending a less busy moment. It then proceeds to follow the precedent behaviour in applying the chat template, setting generation parameters and finally decoding and returning the response. The implementation of this function is given in Code \ref{lst:retrieve-affluency}.
+A normal interaction would return this final response, but the function also handles the case in which the generated response is not textual but, following the flow described in Section \ref{sec:agent-ai}, is a tool call. When this is the case, after parsing the content, it extracts the name of the tool and the parameters captured by the model, to call the \texttt{retrieve\_affluency()} function in order to get the statistics regarding a specific point of interest in a specific day and time, suggesting to visit that attraction if feasible, otherwise recommending a less busy moment. It then proceeds to follow the precedent behavior in applying the chat template, setting generation parameters and finally decoding and returning the response. The implementation of this function is given in Code \ref{lst:retrieve-affluency}.
 
 \begin{center}
 \begin{lstlisting}[language=Python, frame=single, caption=\texttt{retrieve\_affluency()} Function.]
@@ -500,7 +500,7 @@ Tha main duty of this function is to parse the date and divides it into atomic p
 \begin{center}
 \begin{lstlisting}[language=Python, frame=single, caption=\texttt{is\_location\_crowded()} Function.]
 def is_location_crowded(location: str, month: int, weekday: int, hour: int) -> str:
-    # Handled the case when the prompt does not require a specifice time,
+    # Handled the case when the prompt does not require a specific time,
     # rather only a date
     if hour == 0:
         df_location = df[(df['sito_nome'] == location) & (df['weekday'] == int(weekday))]
@@ -513,7 +513,7 @@ def is_location_crowded(location: str, month: int, weekday: int, hour: int) -> s
     else:
         df_location = df[(df['sito_nome'] == location) & (df['weekday'] == int(weekday)) & (df['ora_visita_intervallo'] == int(hour))]
 
-    # Perform some aggreagations in order to get monthly visits
+    # Perform some aggregations in order to get monthly visits
     location_visits = df_location.groupby(['anno_visita', 'mese_visita', 'weekday', 'ora_visita_intervallo']).size().reset_index(name='visits_number')
     visits = location_visits.groupby(['mese_visita', 'weekday', 'ora_visita_intervallo'])['visits_number'].mean().reset_index(name='visits_mean')
 
@@ -644,7 +644,7 @@ Also, I should let you know that the weather today is quite rainy, with a high c
 Let me know your preferences, and I'll do my best to suggest some great places to visit!
 \end{Verbatim}
 
-The user's prompt was hard-coded, while the assistant's response was generated by the model, setting the parameter \texttt{tool\_call=False} in the generation function \texttt{generate\_response()}, so that to teach the model to respond naturally when no crowd-based suggestion is requested. Thereafter, an example of the tool call to \texttt{retrieve\_affluency()} was given:
+\sloppy{The user's prompt was hard-coded, while the assistant's response was generated by the model, setting the parameter \texttt{tool\_call=False} in the generation function \texttt{generate\_response()}, so that to teach the model to respond naturally when no crowd-based suggestion is requested. Thereafter, an example of the tool call to \texttt{retrieve\_affluency()} was given:}
 
 \begin{Verbatim}[breaklines=true]
 \underline{USER}:       I don't want too many crowds, what time would you suggest for visiting Giardino Giusti today?

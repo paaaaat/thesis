@@ -1,0 +1,25 @@
+
+\begin{thenomenclature} 
+\nomgroup{A}
+  \item [{AI}]\begingroup Artificial Intelligence\nomeqref {0}\nompageref{1}
+  \item [{API}]\begingroup Application Programming Interface\nomeqref {0}\nompageref{1}
+  \item [{BERT}]\begingroup Bidirectional Encoder Representations (from Transformers)\nomeqref {0}\nompageref{1}
+  \item [{BPE}]\begingroup Byte-Pair Encoding\nomeqref {0}\nompageref{1}
+  \item [{CNN}]\begingroup Convolutional Neural Network(s)\nomeqref {0}\nompageref{1}
+  \item [{GPT}]\begingroup Generative Pre-Trained Transformer(s)\nomeqref {0}\nompageref{1}
+  \item [{GPU}]\begingroup Graphics Processing Unit\nomeqref {0}\nompageref{1}
+  \item [{HF}]\begingroup Hugging Face\nomeqref {0}\nompageref{1}
+  \item [{LLaMA}]\begingroup Large Language Model Meta AI\nomeqref {0}\nompageref{1}
+  \item [{LLM}]\begingroup Large Language Model(s)\nomeqref {0}\nompageref{1}
+  \item [{LoRA}]\begingroup Low-Rank Adaptation\nomeqref {0}\nompageref{1}
+  \item [{LSTM}]\begingroup Long Short-Term Memory\nomeqref {0}\nompageref{1}
+  \item [{MLM}]\begingroup Masked Language Modeling\nomeqref {0}\nompageref{1}
+  \item [{NLP}]\begingroup Natural Language Processing\nomeqref {0}\nompageref{1}
+  \item [{PEFT}]\begingroup Parameter-Efficient Fine-Tuning\nomeqref {0}\nompageref{1}
+  \item [{RAG}]\begingroup Retrieval-Augmented Generation\nomeqref {0}\nompageref{1}
+  \item [{RLHS}]\begingroup Reinforcement Learning from Human Feedback\nomeqref {0}\nompageref{1}
+  \item [{RNN}]\begingroup Recurrent Neural Network(s)\nomeqref {0}\nompageref{1}
+  \item [{T5}]\begingroup Text-to-Text Transfer Transformer\nomeqref {0}\nompageref{1}
+  \item [{TPU}]\begingroup Tensor Processing Unit\nomeqref {0}\nompageref{1}
+
+\end{thenomenclature}

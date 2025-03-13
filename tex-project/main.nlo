@@ -1,0 +1,20 @@
+\nomenclatureentry{aAI@[{AI}]\begingroup Artificial Intelligence\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aNLP@[{NLP}]\begingroup Natural Language Processing\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aLLM@[{LLM}]\begingroup Large Language Model(s)\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aCNN@[{CNN}]\begingroup Convolutional Neural Network(s)\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aRNN@[{RNN}]\begingroup Recurrent Neural Network(s)\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aLSTM@[{LSTM}]\begingroup Long Short-Term Memory\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aGPT@[{GPT}]\begingroup Generative Pre-Trained Transformer(s)\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aBERT@[{BERT}]\begingroup Bidirectional Encoder Representations\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aT5@[{T5}]\begingroup Text-to-Text Transfer Transformer\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aRAG@[{RAG}]\begingroup Retrieval-Augmented Generation\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aPEFT@[{PEFT}]\begingroup Parameter-Efficient Fine-Tuning\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aLoRA@[{LoRA}]\begingroup Low-Rank Adaptation\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aBPE@[{BPE}]\begingroup Byte-Pair Encoding\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aMLM@[{MLM}]\begingroup Masked Language Modeling\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aRLHS@[{RLHS}]\begingroup Reinforcement Learning from Human Feedback\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aAPI@[{API}]\begingroup Application Programming Interface\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aHF@[{HF}]\begingroup Hugging Face\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aGPU@[{GPU}]\begingroup Graphics Processing Unit\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aTPU@[{TPU}]\begingroup Tensor Processing Unit\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aLLaMA@[{LLaMA}]\begingroup Large Language Model Meta AI\nomeqref {0}|nompageref}{1}
