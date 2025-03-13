@@ -83,8 +83,7 @@ This service provides both historical and up-to-date forecasts and current condi
 The API is therefore queried for the project's specific use-case for a one-day forecast, sending an HTTP request of the following format:
 
 \begin{center}
-\begin{minipage}{0.7\textwidth}
-\begin{lstlisting}[language=Python, frame=single, caption=Open-Meteo HTTP Reuquest]
+\begin{lstlisting}[language=Python, frame=single, caption=Open-Meteo HTTP Request]
 import openmeteo_requests
 
 # Setup the Open-Meteo API client
@@ -105,7 +104,6 @@ params = {
 # Store the result of the request
 responses = openmeteo.weather_api(url, params=params)
 \end{lstlisting}
-\end{minipage}
 \end{center}
 
 By making on-demand queries and integrating weather data into the context, the system can augment its responses with the latest meteorological information, ensuring greater accuracy when, for example, recommending outdoor activities or advising on suitable travel conditions.
@@ -116,7 +114,6 @@ By making on-demand queries and integrating weather data into the context, the s
 \section{Development Ecosystem}
 \label{sec:development-ecosystem}
 
-% The deployment of project relies
 \subsection{Data Processing}
 \label{sec:data-preprocessing}
 
@@ -132,8 +129,7 @@ As mentioned in Section \ref{sec:llama}, the project draws extensively on the Hu
 The other fundamental module is \verb|AutoTokenizer|, which grabs the proper tokenizer class in the library based on the checkpoint name, and can be used directly with any checkpoint. As discussed in Section \ref{sec:tokenization}, tokenizers serves the purpose of converting text inputs to numerical data: the module provided by HF takes care of all the end-to-end process from encoding the input into numbers and decoding the model's output back to text.
 
 \begin{center}
-\begin{minipage}{0.7\textwidth}
-\begin{lstlisting}[language=Python, frame=single, caption=Importing LLaMa through Transformers Library]
+\begin{lstlisting}[language=Python, frame=single, caption=Importing LLaMa through Transformers Library, label=lst:transformers-script]
 # Set the model's architecture
 model_name = 'meta-llama/Llama-3.1-8B-Instruct'
 
@@ -150,8 +146,6 @@ model = AutoModelForCausalLM.from_pretrained(
 # Load the tokenizer
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 \end{lstlisting}
-\label{lst:transformers-script}
-\end{minipage}
 \end{center}
 
 The configuration class \verb|BitsAndBytesConfig|, also provided by the \verb|transformers| library, allows for the 8-bit quantization described in Section \ref{sec:quantization}. By specifying memory-efficient data types such as integer weight representations, the system is able to reduce computational overhead without sacrificing performance metrics.
@@ -165,7 +159,6 @@ These modules are indispensable for loading pre-trained model weights and prepar
 Aside from the model and data components, the project also incorporates a lightweight web framework to expose the resulting functionalities through an internal API. Here, \textit{Flask} is used to build an endpoint that can handle incoming prompts, invoke the Large Language Model, and return responses in a JSON format. This approach abstracts away many lower-level details, ensuring that the LLM remains encapsulated in a modular service.
 
 \begin{center}
-\begin{minipage}{1\textwidth}
 \begin{lstlisting}[language=Python, frame=single, caption=Writing the Streamlit web app.]
 from flask import Flask, request, jsonify
 import threading
@@ -199,13 +192,11 @@ def run_flask():
 flask_thread = threading.Thread(target=run_flask)
 flask_thread.start()
 \end{lstlisting}
-\end{minipage}
 \end{center}
 
 For delivering an interactive prototype within a web interface, the project utilizes the framework \textit{streamlit}, which has proved to be useful in building upon hundreds of existing templates shared by its community.
 
 \begin{center}
-% \begin{minipage}{1\textwidth}
 \begin{lstlisting}[language=Python, frame=single, caption=Flask API Internal Service]
 # Write the streamlit web app
 %%writefile app.py
@@ -284,7 +275,6 @@ streamlit_url = ngrok.connect(8501)
 # Run the Stremlit web app
 !streamlit run app.py --server.port 8501
 \end{lstlisting}
-% \end{minipage}
 \end{center}
 
 Due to Google Colab’s lack of a native localhost environment, the project utilizes \textit{pyngrok} to tunnel local Flask and Streamlit services to the public internet. This technique creates a secure URL that points to the locally hosted API, enabling remote access and real-time testing without the overhead of a full production hosting solution.
@@ -311,8 +301,7 @@ The front-end is presented as a clear and simple touch point that resembles comm
 As soon as the send button is clicked (or the enter key is pressed), the app sends a POST to the Flask server's endpoint \verb|/predict|, loaded with a JSON formatted prompt. The object is then parsed and the user's prompt is then extracted in a raw format, appended to the backend chat history--this is not responsible for the visible front-end chat, but rather the context to be give to the model--and then given as a parameter to the \texttt{generate\_response(model, token, prompt)}.
 
 \begin{center}
-\begin{minipage}{0.7\textwidth}
-\begin{lstlisting}[language=Python, frame=single, caption=Predict Flask API.]
+\begin{lstlisting}[language=Python, frame=single, caption=Predict Flask API., label=lst:predict-api]
 # This decorator tells Flask to set it as a callable endpoint
 @app.route('/predict', methods=['POST'])
 # The function called as soon as the user sends a message
@@ -324,8 +313,6 @@ def predict():
     messages.append({"role": "assistant", "content": response})
     return jsonify({"response": response})
 \end{lstlisting}
-\label{lst:predict-api}
-\end{minipage}
 \end{center}
 
 This function is the engine of the LLM: it is a step-by-step procedure that orchestrates the internal functioning of the model, parsing the input with the tokenizer, moving the computation to the GPU, setting the temperature and the necessary number of tokens and finally triggering a response, which is now discussed in depth.
@@ -355,7 +342,7 @@ def generate_response(tokenizer, model, messages, tool_call=True):
     """
 
     # Define the set of tools the model can use
-    tools = [retrieve_affluency]
+    tools = [retrieve_affluency, get_weather_forecast]
 
     if not tool_call:
         tools = None
@@ -400,11 +387,11 @@ def generate_response(tokenizer, model, messages, tool_call=True):
         tool_call = {"name": name, "arguments": arguments}
         messages.append({"role": "assistant", "tool_calls": [{"type": "function", "function": tool_call}]})
 
-        # The retrieve_affluency function returns the output with the parsed arguments
+        # Both functions return the output with the parsed arguments, if called
         if name == "retrieve_affluency":
             content = retrieve_affluency(tool_call["arguments"]["location"], tool_call["arguments"]["date"])
-        # elif name == "get_weather_forecast":
-        #     content = get_weather_forecast(tool_call["arguments"]["date"])
+        elif name == "get_weather_forecast":
+            content = get_weather_forecast(tool_call["arguments"]["date"])
         else:
             content = ""
 
@@ -458,7 +445,7 @@ The \texttt{output} variable holds the model generated content, which sets also 
 A normal interaction would return this final response, but the function also handles the case in which the generated response is not textual but, following the flow described in Section \ref{sec:agent-ai}, is a tool call. When this is the case, after parsing the content, it extracts the name of the tool and the parameters captured by the model, to call the \texttt{retrieve\_affluency()} function in order to get the statistics regarding a specific point of interest in a specific day and time, suggesting to visit that attraction if feasible, otherwise recommending a less busy moment. It then proceeds to follow the precedent behavior in applying the chat template, setting generation parameters and finally decoding and returning the response. The implementation of this function is given in Code \ref{lst:retrieve-affluency}.
 
 \begin{center}
-\begin{lstlisting}[language=Python, frame=single, caption=\texttt{retrieve\_affluency()} Function.]
+\begin{lstlisting}[language=Python, frame=single, caption=\texttt{retrieve\_affluency()} Function., label=lst:retrieve-affluency]
 def retrieve_affluency(location: str, date: str) -> str:
     """
     Get the current affluency of a specific location, based on past data.
@@ -492,13 +479,12 @@ def retrieve_affluency(location: str, date: str) -> str:
 
     return prompt
 \end{lstlisting}
-\label{lst:retrieve-affluency}
 \end{center}
 
 Tha main duty of this function is to parse the date and divides it into atomic parts, i.e. day, month, weekday and hour. It the proceeds to call another function, \texttt{is\_location\_crowded()}, that can be seen in Code \ref{lst:is-location-crowded}, which takes these newly forged data, along with the point of interest, and performs a series of operation on the VeronaCard dataset.
 
 \begin{center}
-\begin{lstlisting}[language=Python, frame=single, caption=\texttt{is\_location\_crowded()} Function.]
+\begin{lstlisting}[language=Python, frame=single, caption=\texttt{is\_location\_crowded()} Function., label=lst:is-location-crowded]
 def is_location_crowded(location: str, month: int, weekday: int, hour: int) -> str:
     # Handled the case when the prompt does not require a specific time,
     # rather only a date
@@ -543,15 +529,14 @@ def is_location_crowded(location: str, month: int, weekday: int, hour: int) -> s
         except IndexError:
             return "The site is closed."
 \end{lstlisting}
-\label{lst:is-location-crowded}
 \end{center}
 
 \texttt{is\_location\_crowded()} takes the atomic data chunked by the \texttt{retrieve\_affluency()} and performs a series of operation in order to gather affluency data. In particular, it handles three cases: when user asks for recommendation for today, tomorrow or generally a time window, the parser sets \textit{hour} to 0, and that is the sign to give a suggestion solely based on the \textit{date} parameter (e.g., \textit{What time should I visit Arena today?}), returning a suggested time for visiting; if hour information is given, then it proceeds to check if it present in the dataset for that specific point of interest--if not the site should be labeled as closed. Finally, if all information is given, namely the attraction, month, weekday and hour (e.g. \textit{I would like to visit Castelvecchio tomorrow at 3pm.}), the function returns an estimation of the turnout calculating the mean of the number of visits in that weekday for that specific month, across all months, based on the percentile that specific time belongs to, allowing for three values to be appended to the prompt (\textit{low}, \textit{medium}, \textit{high}).
 
-Subsequently, as can be seen in Code \ref{lst:retrieve-affluency}, if the estimated afflunecy is not low, it provides an alternative time, which may provide less crowded visiting moments, implemented through Code \ref{lst:suggest-alternative-time}.
+Subsequently, as can be seen in Code \ref{lst:retrieve-affluency}, if the estimated affluence is not low, it provides an alternative time, which may provide less crowded visiting moments, implemented through Code \ref{lst:suggest-alternative-time}.
 
 \begin{center}
-\begin{lstlisting}[language=Python, frame=single, caption=\texttt{suggest\_alternative\_time()} Function.]
+\begin{lstlisting}[language=Python, frame=single, caption=\texttt{suggest\_alternative\_time()} Function., label=lst:suggest-alternative-time]
 def suggest_alternative_time(location: str, month: int, weekday: int) -> str:
     # It performs similar operations of is_location_crowded function,
     # but it returns the median value of the vists across the
@@ -565,10 +550,45 @@ def suggest_alternative_time(location: str, month: int, weekday: int) -> str:
 
     return int(alternative['ora_visita_intervallo'])
 \end{lstlisting}
-\label{lst:suggest-alternative-time}
 \end{center}
 
 This utility performs similar operations to the \texttt{is\_location\_crowded()} function in gathering affluency data by weekday and month across all months, but this time it returns the median value for that day in order to provide a lower crowded moment to suggest to the user.
+
+The second tool at model's disposal is a function getting weather forecast for the following seven days. From the previously retrieved weather dataset for Verona, it proceeds to take the demanded information both in a daily and hourly manner, based on the specific user input: if the date is generic (e.g. \textit{What is the weather like tomorrow?}) it returns an hour-by-hour paragraph eliciting the weather for the whole day, whereas when prompted, for example \textit{I would like to visit the Arena saturday at 3pm, will it be sunny?}, the function returns the single information for saturday at 3pm. The definition of the function can be seen in Code \ref{lst:get-weather-forecast}:
+
+
+\begin{center}
+\begin{lstlisting}[language=Python, frame=single, caption=\texttt{get\_weather\_forecast()} Function., label=lst:get-weather-forecast]
+def get_weather_forecast(date: str=None) -> str:
+    """
+    Get the weather forecast.
+
+    Args:
+        date: The datetime to get the weather data.
+
+    Returns:
+        The weather forecast for a specific day.
+    """
+
+    parsed_date = dateparser.parse(date)
+    if parsed_date == None:
+        parsed_date = timefhuman(date)
+
+    # If date is generic, return the forecast for the entire day
+    if parsed_date.hour == 0:
+        weather_forecast = next_7_days_weather[next_7_days_weather["date"].dt.date == parsed_date.date()]
+    # Else return the forecast for a specific point in time
+    else:
+        weather_forecast = next_7_days_weather[(next_7_days_weather["date"].dt.date == parsed_date.date()) & (next_7_days_weather["date"].dt.hour == parsed_date.hour)]
+
+    # Returns a prompt embedding the weather forecast, let it be hourly or specific data
+    prompt = ""
+    for _, row in weather_forecast.iterrows():
+        prompt += f"\nAt {row['date'].strftime('%H:%M')} the temperature is {int(row['temperature'])}C with {row['weather_description'].lower()}. The precipitation probability is {int(row['precipitation_probability'])}%."
+
+    return prompt
+\end{lstlisting}
+\end{center}
 
 After having outlined both the operational settings as importing the LLM's architecture and checkpoints, importing the tokenizer with appropriate parameters, instatiate the model, and having described the set of tools enabling the dyanmic behaviour of the model, the instance of the context enabling the domain-specific expertise seen in Sections \ref{sec:prompt-engineering} and \ref{sec:agent-ai} shall be discussed.
 
@@ -653,7 +673,6 @@ Let me know your preferences, and I'll do my best to suggest some great places t
 The model's output then follows the steps described in Section \ref{sec:agent-ai}:
 
 \begin{center}
-\begin{minipage}{0.7\textwidth}
 \begin{lstlisting}[language=Python, frame=single, caption=Tool call]
 # Tool call
 {
@@ -679,7 +698,6 @@ The model's output then follows the steps described in Section \ref{sec:agent-ai
     'content': 'Suggested time for Giardino Giusti: 8.'
 }
 \end{lstlisting}
-\end{minipage}
 \end{center}
 
 Which finally gives a response to the users's prompt:

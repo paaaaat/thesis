@@ -3,7 +3,7 @@
 \nomgroup{A}
   \item [{AI}]\begingroup Artificial Intelligence\nomeqref {0}\nompageref{1}
   \item [{API}]\begingroup Application Programming Interface\nomeqref {0}\nompageref{1}
-  \item [{BERT}]\begingroup Bidirectional Encoder Representations (from Transformers)\nomeqref {0}\nompageref{1}
+  \item [{BERT}]\begingroup Bidirectional Encoder Representations\nomeqref {0}\nompageref{1}
   \item [{BPE}]\begingroup Byte-Pair Encoding\nomeqref {0}\nompageref{1}
   \item [{CNN}]\begingroup Convolutional Neural Network(s)\nomeqref {0}\nompageref{1}
   \item [{GPT}]\begingroup Generative Pre-Trained Transformer(s)\nomeqref {0}\nompageref{1}

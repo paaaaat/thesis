@@ -193,7 +193,7 @@ The idea of role prompting is rooted in the broader literature on prompt enginee
         \textit{For example, to get the model to respond correctly to knock-knock jokes, you might provide a full back-and-forth dialogue of a knock-knock joke.} \\
         \hline
     \end{tabularx}
-    \caption{Examples of Instruction Tuning}
+    \caption{Roles definition}
     \label{tab:roles}
 \end{table}
 
@@ -236,11 +236,11 @@ Here the task is to classify the sentiment of the sentence provided. It does not
 Providing examples can help the model to understand the task:
 
 \begin{Verbatim}[breaklines=true]
-    USER        Message: Dad, you are 20 minutes late for my piano recital!!
-                Sentiment: Negative
-                Message: Hi Amit, I loved my birthday card!
-                Sentiment:
-    ASSISTANT   Sentiment: Positive.
+\underline{USER}:       Message: Dad, you are 20 minutes late for my piano recital!!
+            Sentiment: Negative
+            Message: Hi Amit, I loved my birthday card!
+            Sentiment:
+\underline{ASSISTANT}:  Sentiment: Positive.
 \end{Verbatim}
 
 Giving the model an example, and then the task we want it to perform is called \textit{One-Shot Prompting}; two or more examples given to the model is called \textit{Few-Shot Prompting}. As shown in Figure \ref{fig:prompting-accuracy}, increasing the number \textit{k} of examples along with the increasing number of parameters held by the model's architecture improve task accuracy.
@@ -352,18 +352,18 @@ The fundamental component of an Agent is the concept of \textit{tool}: a user-de
     \item The model is made aware of the available set of tools, and it is taught when to call them through \textit{few-shot} example as seen in Section \ref{sec:in-context-learning} on how to use them or by a \textit{Chain-of-Thought} approach as seen in Section \ref{sec:cot-prompting}, dissecting the steps required to achieve the task. A simple yet effective prompt could be:
     
     \begin{Verbatim}[breaklines=true]
-    The get_flights method can be used to get the latest flight information from the Google Flights service. When the user wants to search for flights, call the function get_flights. Input arguments are "departure", "destination", "date".
+The get_flights method can be used to get the latest flight information from the Google Flights service. When the user wants to search for flights, call the function get_flights. Input arguments are "departure", "destination", "date".
     \end{Verbatim}
 
     \item When the user prompts "I want to book flight from Austin to Zurich", the model activates the orchestration layer which is a cyclical process that governs how the agent takes in information and performs internal reasoning. The model thus uses that reasoning to inform its next action the cognitive architecture section: usually some triggers activate internal reasoning, for example the word "flight" or "book a flight". The agent then starts a multi-step process that calls the function \verb|get_flights| with the captured parameters \verb|"departure": "Austin", "arrival": "Zurich"|. The function is run, the returned result is parsed by the model itself which in turn generates the response to users' prompt.
     Note that tool calling is an actual output, which is different from a straightforward usual response, and it is generally hidden. The input-output sequence:
         \begin{Verbatim}[breaklines=true]
-            INPUT     Prompt.
-            OUTPUT    Tool: get_flights. Parameters: "departure": "Austin", "arrival": "Zurich"
-            INPUT     Call function get_flights with parameters "departure": "Austin", "arrival": "Zurich"
-            OUTPUT    Function returned flights.
-            INPUT     Present the results flights from Austin to Zurich.
-            OUTPUT    "Here are some flights that might interest you..."
+\underline{INPUT}     Prompt.
+\underline{OUTPUT}    Tool: get_flights. Parameters: "departure": "Austin", "arrival": "Zurich"
+\underline{INPUT}     Call function get_flights with parameters "departure": "Austin", "arrival": "Zurich"
+\underline{OUTPUT}    Function returned flights.
+\underline{INPUT}     Present the results flights from Austin to Zurich.
+\underline{OUTPUT}    "Here are some flights that might interest you..."
         \end{Verbatim}
     The first input is the user's prompt, it then follows the model's output which is not displayed, but instead parsed internally, deciding to use the tool. The function is then run, the result returned and again parsed. Finally, the output is shown, answering the initial prompt.
 \end{enumerate}

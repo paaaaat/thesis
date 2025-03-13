@@ -303,7 +303,7 @@ Which of these attractions sounds interesting to you? Or do you have any specifi
 \underline{USER}:       I don't want too many crowds, what time would you suggest for visiting Giardino Giusti today?
 \end{Verbatim}
 \begin{center}
-\begin{lstlisting}[language=Python, frame=single, caption=Few-shot on \texttt{retrieve\_affluency()}.]
+\begin{lstlisting}[language=Python, frame=single, caption=Few-shot on \texttt{retrieve\_affluency()}., label=lst:few-shot-affluency]
 from datetime import datetime
 
 # Get and format the current date
@@ -355,7 +355,6 @@ messages.append(
     }
 )
 \end{lstlisting}
-\label{lst:few-shot-affluency}
 \end{center}
 \begin{Verbatim}[breaklines=true]
 \underline{ASSISTANT}:  Considering you'd like to avoid crowds, I'd suggest visiting Giardino Giusti in the morning, around 9:00 AM. The weather is expected to be partly cloudy, with a temperature of 5°C and a slight chance of rain. It might be a bit chilly, but the garden is a beautiful spot to visit, and the early morning hours might help you avoid the larger crowds.
@@ -371,7 +370,7 @@ Keep in mind that these are just suggestions, and the actual crowd levels may va
 \underline{USER}:      What is the weather like tomorrow at 3pm?
 \end{Verbatim}
 \begin{center}
-\begin{lstlisting}[language=Python, frame=single, caption=Few-shot on \texttt{get\_weather\_forecast()}.]
+\begin{lstlisting}[language=Python, frame=single, caption=Few-shot on \texttt{get\_weather\_forecast()}., label=lst:few-shot-weather]
 from datetime import timedelta
 
 # Get tomorrow's date
@@ -420,7 +419,6 @@ messages.append(
     }
 )
 \end{lstlisting}
-\label{lst:few-shot-weather}
 \end{center}
 \begin{Verbatim}[breaklines=true]
 \underline{ASSISTANT}:  Tomorrow at 3:00 PM, the weather is expected to be overcast with a temperature of 10°C and a precipitation probability of 8%.
